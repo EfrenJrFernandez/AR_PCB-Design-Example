@@ -20,5 +20,5 @@ The marker for this example is given below:
 
 [If you would like to print the marker please download the image which is located in the images folder]
 
-#Acknowledgements
+# Acknowledgements
 The 3D model was created by [Andrew](https://grabcad.com/library/arduino-uno-r3-1) and modified by me.
