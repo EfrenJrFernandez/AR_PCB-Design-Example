@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+    <head>
+        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+        <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .collapsible { /* Styles the button for the collapsible menu */
+                background-color: #777;
+                color: white;
+                cursor: pointer;
+                padding: 10px;
+                width: 20%;
+                border: none;
+                text-align: center;
+                outline: none;
+                font - size: 15px;
+            }
+            
+            .active, .collapsible:hover {
+                background-color: #555;
+            }
+            
+            .content { /*Styles the collapsible content, this is hidden by default */
+                padding: 0 18px;
+                text-align: center;
+                max-height: 0;
+                overflow: hidden;
+                width: 30%;
+                transition: max-height 0.2s ease-out;
+                background-color: #ffffff;
+            }
+            
+            .collapsible:after {
+                content: '\02795'; /* Unicode character for + */
+                font-size: 13px;
+                color: white;
+                float: left;
+                margin-left: 5px;
+            }
+            
+            .active:after {
+                content: "\2796"; /*Unicode character for - */
+            }
+            
+            
+        </style>
+    </head>
+    <body>
+        <!-- A collapsable Menu that provides some information -->
+        <div align="center" style='position: fixed; top: 10px; width:100%; text-align: left; z-index: 1;'>
+            <button class="collapsible" align="left">Display Instructions:</button>
+            <div class = "content">
+                <ol style = "font-size: 12px" align="left">
+                    <li>If you are using a device with a small screen (e.g. Smartphone) please put it on landscape</li>
+                    
+                    <li>You may freely rotate the model by tapping it</li>
+                </ol>
+            </div>
+            
+            <button class = "collapsible" align = "center" onclick = ShowMCU()>What is a Microcontroller?</button>
+            <div class = "content">
+                The microcontroller is the "Brain" that controls the operation of an embedded system. Microcontrollers typically contain a variety of components such as the processor, memory and Input/Output (I/O)
+            </div>
+                
+            
+            <button class = "collapsible" align = "center" onclick = ShowOscillator()>What is a Crystal Oscillator?</button>
+            <div class = "content">
+                It is circuitry that uses a vibrating crystal to create a signal with constant frequency. This will provide a stable clock signal that the microprocessor can use to execute commands.
+            </div>
+            
+            <button class = "collapsible" align = "center" onclick = ShowProgrammer()>What is a Programmer? </button>
+            <div class = "content">
+                The programmer is a hardware device that translates the code that we write on our desktops to something that the microprocessor can understand.
+            </div>
+            
+        </div>
+        
+        <a-scene
+            vr-mode-ui="enabled: false;"
+            loading-screen="enabled: false;"
+            renderer="logarithmicDepthBuffer: true;"
+            arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+            id="scene"
+            embedded
+            gesture-detector
+        >
+            <a-assets>
+                <a-asset-item
+                    id="animated-asset"
+                    src="assets/asset.glb"
+                ></a-asset-item>
+            </a-assets>
+
+            <a-marker
+                id="animated-marker"
+                type="pattern"
+                preset="custom"
+                url="assets/marker.patt"
+                raycaster="objects: .clickable"
+                emitevents="true"
+                cursor="fuse: false; rayOrigin: mouse;"
+                id="markerA"
+            >
+                <a-entity
+                    id="bowser-model"
+                    scale="0.007894852552762557 0.007894852552762557 0.007894852552762557"
+                    animation-mixer="loop: repeat"
+                    gltf-model="#animated-asset"
+                    class="clickable"
+                    gesture-handler
+                ></a-entity>
+            </a-marker>
+            
+            <a-entity camera></a-entity>
+        </a-scene>
+        
+        <!-- This script is for the collapsible menus -->
+        <script>
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
+
+            for (i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+                    if (content.style.maxHeight){
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        } 
+                });
+            }
+            
+            <!-- Function to show and hide the meshes -->
+            var i = 0;
+            function ShowMCU() {
+                if (i == 0){
+                    for (var counter = 0; counter < 84; counter++) {
+                        if(counter == 76){
+                            
+                        }
+                        
+                        else {
+                            mesh.children[counter].visible = false;
+                        }
+                    }
+                    i++
+                }
+                
+                else if(i == 1){
+                    for (var counter = 0; counter < 84; counter++) { 
+                        mesh.children[counter].visible = true
+                    }
+                    i--;
+                }
+            }
+            
+            var j = 0;
+            function ShowOscillator() {
+                if (j == 0){
+                    for (var counter = 0; counter < 84; counter++) {
+                        if(counter == 57){
+                            
+                        }
+                        
+                        else {
+                            mesh.children[counter].visible = false;
+                        }
+                    }
+                    j++
+                }
+                
+                else if(j == 1){
+                    for (var counter = 0; counter < 84; counter++) { 
+                        mesh.children[counter].visible = true
+                    }
+                    j--;
+                }
+            }
+            
+            var k = 0;
+            function ShowProgrammer() {
+                if (k ==0){
+                    for (var counter =  0; counter < 84; counter++){
+                        if (counter == 53){
+                            
+                        }
+                        
+                        else {
+                            mesh.children[counter].visible = false;
+                        }
+                    }
+                    k++;
+                }
+                
+                else if(k == 1){
+                    for( var counter = 0; counter < 84; counter++){
+                        mesh.children[counter].visible = true;
+                    }
+                    k--;
+                }
+            } 
+            
+        </script>
+        
+    <!-- Allows us to identify the different meshes -->
+        <script type="text/javascript">
+            gltf = document.querySelector('#bowser-model');
+            var scene = document.querySelector('a-scene');
+            scene.addEventListener('loaded', function (e) {
+                mesh = gltf.getObject3D('mesh');
+                console.log(mesh);
+            });
+        </script>
+    </body>
+</html>
